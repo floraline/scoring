@@ -3,18 +3,14 @@
 
    c = attributes['cursor']
    player = attributes['player']
-
-   ostats = html.overall_player_stats(c, player)
-   
-   whereis = html.whereis(False, player)
-   wins = query.player_wins(c, player)
-   streaks = query.player_streaks(c, player, 10)
-   recent_games = query.player_recent_games(c, player)
-
-   combo_highscores = query.player_combo_highscores(c, player)
-   species_highscores = query.player_species_highscores(c, player)
-   class_highscores = query.player_class_highscores(c, player)
-   stats = query.player_stats_matrix(c, player)
+  
+   games_all = query.get_player_games(c, player)
+   games_0_18 = query.get_player_games(c, player, "data/cko-logfile-0.18")
+   games_0_21 = query.get_player_games(c, player, "data/cko-logfile-0.21")
+   games_0_22 = query.get_player_games(c, player, "data/cko-logfile-0.22", '0.22-a0')
+   games_git = query.get_player_games(c, player, "data/cko-logfile-git")
+   games_bcrawl = query.get_player_games(c, player, "data/cko-logfile-bcrawl")
+   games_hellcrawl = query.get_player_games(c, player, "data/cko-logfile-hellcrawl")
  %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -22,82 +18,78 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>${player}</title>
-    <link rel="stylesheet" type="text/css" href="../score.css">
+    <title>CKO Morgue: ${player}</title>
+    <link rel="stylesheet" type="text/css" href="score.css">
+    <script>
+      function openGame(evt, gameName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+      
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("game_table");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+      
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+      
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(gameName).style.display = "block";
+        evt.currentTarget.className += " active";
+      }
+    </script>
   </head>
 
   <body class="page_back">
     <div class="page">
-      <%include file="toplink.mako"/>
-
       <div class="page_content">
-        <h2>Player: ${player}</h2>
+        <h2>CKO Morgue: ${player}</h2>
+        <p>This is only a proof of concept, it may stop working or disappear at any time.</p>
+        <p>This page displays a history of all games played by ${player} on crawl.kelbi.org.<br>Click on the score to view the character file.</p>
 
         <div class="content">
-
-          <h3>Overall Stats</h3>
-          ${ostats}
-        
-          %if whereis:
-          <div class="game_table">
-            <h3>Ongoing Game (cao)</h3>
-            <div class="fineprint">
-              On-going information is from the crawl.akrasiac.org server only,
-              and may be inaccurate if the player is active on other
-              servers.
-            </div>
-            ${whereis}
-          </div>
-          %endif
-
-          % if wins:
-          <div class="game_table">
-            <h3>Wins</h3>
-            ${html.player_wins(wins, count=True)}
-          </div>
-          % endif
-
-          % if streaks:
-          <div class="game_table">
-            <h3>Streaks of Wins</h3>
-            ${html.player_streaks_table(streaks)}
-          </div>
-          % endif
-
-          <div class="game_table">
-            <h3>Recent Games</h3>
-            ${html.full_games_table(recent_games, count=False, win=False)}
+          <div class="tab">
+            <button class="tablinks" onclick="openGame(event, 'games_all')" id="defaultOpen">all</button>
+            <button class="tablinks" onclick="openGame(event, 'games_git')">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'games_0_22')">0.22</button>
+            <button class="tablinks" onclick="openGame(event, 'games_0_21')">0.21</button>
+            <button class="tablinks" onclick="openGame(event, 'games_0_18')">0.18</button>
+            <button class="tablinks" onclick="openGame(event, 'games_hellcrawl')">hellcrawl</button>
+            <button class="tablinks" onclick="openGame(event, 'games_bcrawl')">bcrawl</button>
           </div>
 
-          <hr>
-
-          % if combo_highscores or species_highscores or class_highscores:
-            <div>
-              ${html.player_scores_block(c, combo_highscores,
-                                         'Combo Highscores')}
-              ${html.player_scores_block(c, species_highscores,
-                                         'Species Highscores')}
-              ${html.player_scores_block(c, class_highscores,
-                                         'Class Highscores')}
-            </div>
-            <hr>
-          % endif
-
-          <h3>Winning Characters</h3>
-          ${html.player_stats_matrix(stats, 'wins')}
-          <hr>
-
-          <h3>Games Played</h3>
-          ${html.player_stats_matrix(stats, 'games')}
-          <hr>
-
-          <h3>Best Character Levels</h3>
-          ${html.player_stats_matrix(stats, 'xl')}
-          <hr>
+          <div class="game_table" id="games_all">
+            ${html.full_games_table(games_all, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_git">
+            ${html.full_games_table(games_git, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_0_22">
+            ${html.full_games_table(games_0_22, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_0_21">
+            ${html.full_games_table(games_0_21, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_0_18">
+            ${html.full_games_table(games_0_18, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_hellcrawl">
+            ${html.full_games_table(games_hellcrawl, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_bcrawl">
+            ${html.full_games_table(games_bcrawl, count=False, win=False)}
+          </div>
         </div>
       </div> <!-- content -->
     </div> <!-- page -->
 
     ${html.update_time()}
+<script>
+  document.getElementById("defaultOpen").click();
+</script>
   </body>
 </html>

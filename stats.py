@@ -15,8 +15,8 @@ from query import count_players_per_day, winners_for_day
 from pagedefs import dirty_page, dirty_player, dirty_pages
 
 TOP_N = 1000
-MAX_PLAYER_BEST_GAMES = 15
-MAX_PLAYER_RECENT_GAMES = 15
+MAX_PLAYER_BEST_GAMES = 9999999999999999
+MAX_PLAYER_RECENT_GAMES = 9999999999999999
 MAX_ALL_RECENT_GAMES = 100
 MAX_LOW_XL_RUNE_FINDS = 10
 MAX_ZIGGURAT_VISITS = 10

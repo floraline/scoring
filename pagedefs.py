@@ -79,7 +79,7 @@ DIRTY_PLAYERS = { }
 
 # Pages update at least once in 30 minutes if dirty.
 DEFAULT_DIRTY_THRESHOLD = 30
-PLAYER_DIRTY_THRESHOLD = 30
+PLAYER_DIRTY_THRESHOLD = 1
 
 first_run = True
 

@@ -24,7 +24,7 @@ LOCK = None
 if DEBUG_SCORES:
   BASEDIR = os.getenv('HOME')
 else:
-  BASEDIR = '/home/rax'
+  BASEDIR = '/home/floraline'
 
 SCORING_KEY = 'scoring'
 LOCKFILE = BASEDIR + ('/%s.lock' % SCORING_KEY)

@@ -89,6 +89,23 @@ def canonicalize_player_name(c, player):
     return row[0]
   return None
 
+def get_player_games(c, player, game=None, *versions):
+  querytext = 'select ' + scload.LOG_DB_SCOLUMNS + ' from player_recent_games where ' + ('name = \'%s\'' % player)
+
+  if game:
+    if versions:
+      querytext += ' and (' + ('source_file = \'%s\'' % game)
+      for value in versions:
+        querytext += ' or ' + ('v = \'%s\'' % value)
+      querytext += ')'
+    else:
+      querytext += ' and ' + ('source_file = \'%s\'' % game)
+
+  querytext += ' order by end_time desc'
+
+  query = Query(querytext)
+  return [ row_to_xdict(x) for x in query.rows(c) ]
+
 def find_games(c, table, sort_min=None, sort_max=None,
                limit=None, **dictionary):
   """Finds all games matching the supplied criteria, all criteria ANDed

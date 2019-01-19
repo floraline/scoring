@@ -339,7 +339,10 @@ def games_table(games, first=None, excluding=None, columns=None,
       out += '''<td class="numeric">%s</td>''' % ngame
 
     for c in columns:
-      val = fixup_column(c[0], game.get(c[0]) or '', game)
+      val_pre = game.get(c[0])
+      if val_pre is None:
+        val_pre = ''
+      val = fixup_column(c[0], val_pre, game)
       tcls = column_class(c[0], val)
       out += '''<td class="%s">''' % tcls
 
