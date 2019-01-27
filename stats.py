@@ -71,7 +71,7 @@ def add_rune_milestone(c, g):
                                                rune_time, rune, xl)
                      VALUES (%s, %s, %s, %s, %s)''',
              g['name'], g['start'], g['time'], rune, xl)
-    dirty_page('overview')
+    #dirty_page('overview')
 
   if low_xl_rune_count(c) >= MAX_LOW_XL_RUNE_FINDS:
     worst_rune = worst_xl_rune_find(c)
@@ -126,7 +126,7 @@ def add_ziggurat_milestone(c, g):
                                VALUES (%s, %s, %s, %s, %s)''',
              player, depth, place, g['time'], g['start'])
     player_ziggurat_deepest.flush_key(player)
-    dirty_page('overview', 1)
+    #dirty_page('overview', 1)
 
   if deepest:
     if depth >= deepest:
@@ -135,7 +135,7 @@ def add_ziggurat_milestone(c, g):
                                        zig_time = %s, start_time = %s
                                  WHERE player = %s''',
                depth, place, g['time'], g['start'], player)
-      dirty_page('overview', 1)
+      #dirty_page('overview', 1)
   else:
     if ziggurat_entry_count(c) >= MAX_ZIGGURAT_VISITS:
       row = ziggurat_row_inferior_to(c, depth)
@@ -183,10 +183,10 @@ def update_topN(c, g, n):
                                   ORDER BY sc LIMIT 1'''))
       insert_game(c, g, 'top_games')
       lowest_highscore.flush()
-      dirty_pages('top-N', 'overview')
+      #dirty_pages('top-N', 'overview')
   else:
     insert_game(c, g, 'top_games')
-    dirty_pages('top-N', 'overview')
+    #dirty_pages('top-N', 'overview')
     topN_count.flush()
 
 @DBMemoizer
@@ -277,22 +277,22 @@ def update_player_streak(c, g):
     if player_streak_is_active(c, player):
       player_break_streak(c, player, g)
       player_streak_is_active.flush_key(player)
-      dirty_pages('streaks', 'overview')
+      #dirty_pages('streaks', 'overview')
       dirty_player(player)
   else:
     if player_streak_is_active(c, player):
       player_extend_streak(c, player, g)
-      dirty_pages('streaks', 'overview')
+      #dirty_pages('streaks', 'overview')
     elif player_won_last_game(c, player):
       player_create_streak(c, player, g)
-      dirty_pages('streaks', 'overview')
+      #dirty_pages('streaks', 'overview')
       player_streak_is_active.flush_key(player)
 
 def update_all_recent_games(c, g):
   if is_junk_game(g):
     return
 
-  dirty_page('recent', 1)
+  #dirty_page('recent', 1)
   dirty_page('per-day', 1)
   insert_game(c, g, 'all_recent_games')
   if all_recent_game_count.has_key():
@@ -360,8 +360,7 @@ def update_player_last_game(c, g):
 
 def update_wins_table(c, g):
   if game_is_win(g):
-    dirty_pages('winners', 'fastest-wins-turns', 'fastest-wins-time',
-                'overview')
+    #dirty_pages('winners', 'fastest-wins-turns', 'fastest-wins-time', 'overview')
     insert_game(c, g, 'wins')
 
 def update_player_stats(c, g):
@@ -369,13 +368,13 @@ def update_player_stats(c, g):
 
   if winc:
     dirty_page('best-players-total-score')
-    dirty_page('all-players')
+    #dirty_page('all-players')
     dirty_player(g['name'])
   else:
     if g['sc'] > 0:
       factor = int(g['sc'] / 40000) + 1
       dirty_page('best-players-total-score', factor)
-      dirty_page('all-players', factor)
+      #dirty_page('all-players', factor)
       dirty_player(g['name'], factor)
     else:
       dirty_player(g['name'], 1)
@@ -442,9 +441,9 @@ def update_topscore_table_for(c, g, fn, table, thing):
     fn.flush_key(value)
     query_do(c, "DELETE FROM " + table + " WHERE " + thing + " = %s", value)
     insert_game(c, g, table)
-    dirty_page('top-combo-scores', 25)
-    dirty_page('combo-scoreboard', 25)
-    dirty_page('overview', 5)
+    #dirty_page('top-combo-scores', 25)
+    #dirty_page('combo-scoreboard', 25)
+    #dirty_page('overview', 5)
 
 def update_combo_scores(c, g):
   update_topscore_table_for(c, g, top_score_for_combo,
@@ -463,8 +462,8 @@ def ckiller_record_exists(c, ckiller):
 
 def update_killer_stats(c, g):
   ckiller = g['ckiller']
-  if ckiller != 'winning':
-    dirty_page('killers', 1)
+  #if ckiller != 'winning':
+    #dirty_page('killers', 1)
 
   query_do(c, '''INSERT INTO top_killers
                              (ckiller, kills, most_recent_victim)
@@ -481,7 +480,7 @@ def update_killer_stats(c, g):
 
 def update_gkills(c, g):
   if scload.is_ghost_kill(g):
-    dirty_page('gkills', 1)
+    #dirty_page('gkills', 1)
     ghost = scload.extract_ghost_name(g['killer'])
     if ghost != g['name']:
       query_do(c,
@@ -569,12 +568,12 @@ def act_on_logfile_line(c, this_game):
     return
 
   # Update top-1000.
-  update_topN(c, this_game, TOP_N)
+  #update_topN(c, this_game, TOP_N)
 
   # Update statistics for this player's game.
   update_player_stats(c, this_game)
-  update_combo_scores(c, this_game)
-  update_killer_stats(c, this_game)
-  update_gkills(c, this_game)
+  #update_combo_scores(c, this_game)
+  #update_killer_stats(c, this_game)
+  #update_gkills(c, this_game)
   update_per_day_stats(c, this_game)
-  update_known_races_classes(c, this_game)
+  #update_known_races_classes(c, this_game)

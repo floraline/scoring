@@ -89,6 +89,9 @@ def canonicalize_player_name(c, player):
     return row[0]
   return None
 
+########
+# for CKO
+########
 def get_player_games(c, player, game=None, *versions):
   querytext = 'select ' + scload.LOG_DB_SCOLUMNS + ' from player_recent_games where ' + ('name = \'%s\'' % player)
 
@@ -105,6 +108,71 @@ def get_player_games(c, player, game=None, *versions):
 
   query = Query(querytext)
   return [ row_to_xdict(x) for x in query.rows(c) ]
+
+def get_top_games(c, game, *versions):
+  querytext = 'select ' + scload.LOG_DB_SCOLUMNS + ' from player_recent_games where ' + ('source_file = \'%s\'' % game)
+
+  if versions:
+    for value in versions:
+      querytext += ' or ' + ('v = \'%s\'' % value)
+
+  querytext += ' order by sc desc LIMIT 500'
+
+  query = Query(querytext)
+  return [ row_to_xdict(x) for x in query.rows(c) ]
+
+def get_best_players(c, game, *versions):
+  where_versions = ''
+  if versions:
+    for value in versions:
+      where_versions += ' or ' + ('v = \'%s\'' % value)
+
+  querytext = '''SELECT format(p.TotalScore, 0) as TotalScore, p.Player, p.GamesPlayed, p.GamesWon,
+                        concat(round(p.GamesWon / p.GamesPlayed * 100, 0),'%%%%') as WinPercentage,
+                        format(p.BestScore, 0) as BestScore,
+                        format(round(p.TotalScore / p.GamesPlayed, 0), 0) as AverageScore,
+                        p.FirstGame, p.MostRecentGame
+                   FROM (SELECT sum(sc) as TotalScore, name as Player, count(id) as GamesPlayed,
+                                count(case when ktyp='winning' then 1 end) as GamesWon, max(sc) as BestScore,
+                                min(start_time) as FirstGame, max(end_time) as MostRecentGame
+                           FROM player_recent_games where source_file = '%s' %s  group by name order by sum(sc) desc limit 500
+                        ) as p
+                  WHERE p.BestScore > 10;''' % (game, where_versions)
+
+
+  result = []
+  rows = query_rows(c, querytext)
+
+  for r in rows:
+    rl = list(r)
+    # add morgue links
+    games = player_best_first_last_by_game(c, rl[1], game, *versions)
+    rl[5] = linked_text(games[0], morgue_link, rl[5])
+    rl[7] = linked_text(games[1], morgue_link, rl[7])
+    rl[8] = linked_text(games[2], morgue_link, rl[8])
+    # append row to result
+    result.append(rl)
+
+  return result
+
+def player_best_first_last_by_game(c, player, game, *versions):
+  fields = scload.LOG_DB_SCOLUMNS
+  where_versions = ''
+  if versions:
+    for value in versions:
+      where_versions += ' or ' + ('v = \'%s\'' % value)
+
+  q = [(game_select_from('player_recent_games') +
+        'WHERE name = \'%s\' and (source_file = \'%s\' %s) ORDER BY sc DESC LIMIT 1' % (player, game, where_versions)),
+       (game_select_from('player_recent_games') +
+        'WHERE name = \'%s\' and (source_file = \'%s\' %s) ORDER BY start_time ASC LIMIT 1' % (player, game, where_versions)),
+       (game_select_from('player_recent_games') +
+        'WHERE name = \'%s\' and (source_file = \'%s\' %s) ORDER BY start_time DESC LIMIT 1' % (player, game, where_versions))]
+  q = " UNION ALL ".join(["(" + x + ")" for x in q])
+  return xdict_rows(query_rows(c, q))
+
+########
+########
 
 def find_games(c, table, sort_min=None, sort_max=None,
                limit=None, **dictionary):

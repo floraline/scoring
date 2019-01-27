@@ -58,20 +58,9 @@ def player_page(c, player):
          pars = { 'player' : player, 'quiet': True })
 
 PAGE_DEFS = [
-  [ 'overview' ], #
-  [ 'top-N' ], #
-  [ 'best-players-total-score' ], #
-  [ 'top-combo-scores' ], #
-  [ 'combo-scoreboard' ], #
-  [ 'all-players' ], #
-  [ 'killers' ], #
-  [ 'gkills' ], #
-  [ 'winners' ], #
-  [ 'fastest-wins-turns' ], #
-  [ 'fastest-wins-time' ], #
-  [ 'streaks' ], #
-  [ 'recent' ], #
-  [ 'per-day' ], #
+  [ 'highscores' ],
+  [ 'best-players-total-score' ],
+  [ 'per-day' ],
 ]
 
 DIRTY_PAGES = { }

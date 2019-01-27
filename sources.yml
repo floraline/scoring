@@ -1,4 +1,4 @@
-scoring-base: 'http://scoring.kelbi.org'
+scoring-base: 'http://crawl.kelbi.org/morgue-test'
 
 sources:
   - name: cko

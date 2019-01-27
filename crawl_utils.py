@@ -35,7 +35,7 @@ PLAYER_FILE_DIR = SCORE_FILE_DIR + '/' + PLAYER_BASE
 
 # Use file URLs when testing on greensnark's machines.
 CAO_BASE = config.SCORING_BASE
-CAO_SCORING_BASE = '%s/%s' % (CAO_BASE, SCORING_KEY)
+CAO_SCORING_BASE = '%s' % CAO_BASE
 CAO_IMAGE_BASE = CAO_SCORING_BASE + '/images'
 CAO_PLAYER_BASE = '%s/players' % CAO_SCORING_BASE
 
