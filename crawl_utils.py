@@ -39,6 +39,9 @@ CAO_SCORING_BASE = '%s' % CAO_BASE
 CAO_IMAGE_BASE = CAO_SCORING_BASE + '/images'
 CAO_PLAYER_BASE = '%s/players' % CAO_SCORING_BASE
 
+THIS_SERVER = 'CKO'
+THIS_SERVER_LONG = 'crawl.kelbi.org'
+
 CAO_OVERVIEW = '''<a href="%s/overview.html">Overview</a>''' % CAO_SCORING_BASE
 
 RAWDATA_PATH = '/var/www/crawl/rawdata'

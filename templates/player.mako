@@ -4,11 +4,11 @@
    c = attributes['cursor']
    player = attributes['player']
   
-   games_all = query.get_player_games(c, player)
-   games_0_18 = query.get_player_games(c, player, "data/cko-logfile-0.18")
-   games_0_21 = query.get_player_games(c, player, "data/cko-logfile-0.21")
-   games_0_22 = query.get_player_games(c, player, "data/cko-logfile-0.22", '0.22-a0')
    games_git = query.get_player_games(c, player, "data/cko-logfile-git")
+   games_0_23 = query.get_player_games(c, player, "data/cko-logfile-0.23")#, '0.23-a0')
+   games_0_22 = query.get_player_games(c, player, "data/cko-logfile-0.22")#, '0.22-a0')
+   games_0_21 = query.get_player_games(c, player, "data/cko-logfile-0.21")
+   games_0_18 = query.get_player_games(c, player, "data/cko-logfile-0.18")
    games_bcrawl = query.get_player_games(c, player, "data/cko-logfile-bcrawl")
    games_hellcrawl = query.get_player_games(c, player, "data/cko-logfile-hellcrawl")
  %>
@@ -18,8 +18,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>CKO Morgue: ${player}</title>
-    <link rel="stylesheet" type="text/css" href="score.css">
+    <title>${crawl_utils.THIS_SERVER} Morgue: ${player}</title>
+    <link rel="stylesheet" type="text/css" href="../score.css">
     <script>
       function openGame(evt, gameName) {
         // Declare all variables
@@ -48,14 +48,13 @@
     <div class="page">
       <%include file="toplink.mako"/>
       <div class="page_content">
-        <h2>CKO Morgue: ${player}</h2>
-        <p>This is only a proof of concept, it may stop working or disappear at any time.</p>
-        <p>This page displays a history of all games played by ${player} on crawl.kelbi.org.<br>Click on the score to view the character file.</p>
+        <h2>${crawl_utils.THIS_SERVER} Morgue: ${player}</h2>
+        <p>This page displays a history of all games played by ${player} on ${crawl_utils.THIS_SERVER_LONG}.<br>Click on the score to view the character file.</p>
 
         <div class="content">
           <div class="tab">
-            <button class="tablinks" onclick="openGame(event, 'games_all')" id="defaultOpen">all</button>
-            <button class="tablinks" onclick="openGame(event, 'games_git')">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'games_git')" id="defaultOpen">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'games_0_23')">0.23</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_22')">0.22</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_21')">0.21</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_18')">0.18</button>
@@ -63,11 +62,11 @@
             <button class="tablinks" onclick="openGame(event, 'games_bcrawl')">bcrawl</button>
           </div>
 
-          <div class="game_table" id="games_all">
-            ${html.full_games_table(games_all, count=False, win=False)}
-          </div>
           <div class="game_table" id="games_git">
             ${html.full_games_table(games_git, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_0_23">
+            ${html.full_games_table(games_0_23, count=False, win=False)}
           </div>
           <div class="game_table" id="games_0_22">
             ${html.full_games_table(games_0_22, count=False, win=False)}

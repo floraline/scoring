@@ -2,9 +2,10 @@
    import scload, query, crawl_utils, html
    c = attributes['cursor']
 
+   players_all = query.get_best_players(c)
    players_git = query.get_best_players(c, "data/cko-logfile-git")
-   players_0_23 = query.get_best_players(c, "data/cko-logfile-0.23", "0.23-a0")
-   players_0_22 = query.get_best_players(c, "data/cko-logfile-0.22", "0.22-a0")
+   players_0_23 = query.get_best_players(c, "data/cko-logfile-0.23")#, "0.23-a0")
+   players_0_22 = query.get_best_players(c, "data/cko-logfile-0.22")#, "0.22-a0")
    players_0_21 = query.get_best_players(c, "data/cko-logfile-0.21")
    players_0_18 = query.get_best_players(c, "data/cko-logfile-0.18")
    players_bcrawl = query.get_best_players(c, "data/cko-logfile-bcrawl")
@@ -16,7 +17,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>CKO Players Ranked by Total Score</title>
+    <title>${crawl_utils.THIS_SERVER} Players Ranked by Total Score</title>
     <link rel="stylesheet" type="text/css" href="score.css">
     <script>
       function openGame(evt, gameName) {
@@ -47,19 +48,23 @@
       <%include file="toplink.mako"/>
 
       <div class="page_content">
-        <h2>CKO Players Ranked by Total Score</h2>
+        <h2>${crawl_utils.THIS_SERVER} Players Ranked by Total Score</h2>
 
         <div class="content">
           <div class="tab">
-            <button class="tablinks" onclick="openGame(event, 'players_git')" id="defaultOpen">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'players_all')" id="defaultOpen">all</button>
+            <button class="tablinks" onclick="openGame(event, 'players_git')">trunk</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_23')">0.23</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_22')">0.22</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_21')">0.21</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_18')">0.18</button>
-            <button class="tablinks" onclick="openGame(event, 'players_bcrawl')">bcrawl</button>
             <button class="tablinks" onclick="openGame(event, 'players_hellcrawl')">hellcrawl</button>
+            <button class="tablinks" onclick="openGame(event, 'players_bcrawl')">bcrawl</button>
           </div>
           
+          <div class="game_table" id="players_all">
+            ${html.best_players_by_total_score(players_all)}
+          </div>
           <div class="game_table" id="players_git">
             ${html.best_players_by_total_score(players_git)}
           </div>

@@ -121,11 +121,14 @@ def get_top_games(c, game, *versions):
   query = Query(querytext)
   return [ row_to_xdict(x) for x in query.rows(c) ]
 
-def get_best_players(c, game, *versions):
+def get_best_players(c, game='', *versions):
+  where_game = ''
   where_versions = ''
-  if versions:
-    for value in versions:
-      where_versions += ' or ' + ('v = \'%s\'' % value)
+  if game:
+    where_game = 'where source_file = \'{0}\''.format(game)
+    if versions:
+      for value in versions:
+        where_versions += ' or ' + ('v = \'%s\'' % value)
 
   querytext = '''SELECT format(p.TotalScore, 0) as TotalScore, p.Player, p.GamesPlayed, p.GamesWon,
                         concat(round(p.GamesWon / p.GamesPlayed * 100, 0),'%%%%') as WinPercentage,
@@ -135,9 +138,9 @@ def get_best_players(c, game, *versions):
                    FROM (SELECT sum(sc) as TotalScore, name as Player, count(id) as GamesPlayed,
                                 count(case when ktyp='winning' then 1 end) as GamesWon, max(sc) as BestScore,
                                 min(start_time) as FirstGame, max(end_time) as MostRecentGame
-                           FROM player_recent_games where source_file = '%s' %s  group by name order by sum(sc) desc limit 500
+                           FROM player_recent_games %s %s  group by name order by sum(sc) desc limit 500
                         ) as p
-                  WHERE p.BestScore > 10;''' % (game, where_versions)
+                  WHERE p.BestScore > 10;''' % (where_game, where_versions)
 
 
   result = []
@@ -155,19 +158,22 @@ def get_best_players(c, game, *versions):
 
   return result
 
-def player_best_first_last_by_game(c, player, game, *versions):
+def player_best_first_last_by_game(c, player, game='', *versions):
   fields = scload.LOG_DB_SCOLUMNS
+  where_game = '1=1'
   where_versions = ''
-  if versions:
-    for value in versions:
-      where_versions += ' or ' + ('v = \'%s\'' % value)
+  if game:
+    where_game = 'source_file = \'{0}\''.format(game)
+    if versions:
+      for value in versions:
+        where_versions += ' or ' + ('v = \'%s\'' % value)
 
   q = [(game_select_from('player_recent_games') +
-        'WHERE name = \'%s\' and (source_file = \'%s\' %s) ORDER BY sc DESC LIMIT 1' % (player, game, where_versions)),
+        'WHERE name = \'%s\' and (%s %s) ORDER BY sc DESC LIMIT 1' % (player, where_game, where_versions)),
        (game_select_from('player_recent_games') +
-        'WHERE name = \'%s\' and (source_file = \'%s\' %s) ORDER BY start_time ASC LIMIT 1' % (player, game, where_versions)),
+        'WHERE name = \'%s\' and (%s %s) ORDER BY start_time ASC LIMIT 1' % (player, where_game, where_versions)),
        (game_select_from('player_recent_games') +
-        'WHERE name = \'%s\' and (source_file = \'%s\' %s) ORDER BY start_time DESC LIMIT 1' % (player, game, where_versions))]
+        'WHERE name = \'%s\' and (%s %s) ORDER BY start_time DESC LIMIT 1' % (player, where_game, where_versions))]
   q = " UNION ALL ".join(["(" + x + ")" for x in q])
   return xdict_rows(query_rows(c, q))
 

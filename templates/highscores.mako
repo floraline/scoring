@@ -4,8 +4,8 @@
    c = attributes['cursor']
 
    games_git = query.get_top_games(c, "data/cko-logfile-git")
-   games_0_23 = query.get_top_games(c, "data/cko-logfile-0.23", "0.23-a0")
-   games_0_22 = query.get_top_games(c, "data/cko-logfile-0.22", "0.22-a0")
+   games_0_23 = query.get_top_games(c, "data/cko-logfile-0.23")#, "0.23-a0")
+   games_0_22 = query.get_top_games(c, "data/cko-logfile-0.22")#, "0.22-a0") # include trunk games targeting this version?
    games_0_21 = query.get_top_games(c, "data/cko-logfile-0.21")
    games_0_18 = query.get_top_games(c, "data/cko-logfile-0.18")
    games_bcrawl = query.get_top_games(c, "data/cko-logfile-bcrawl")
@@ -17,8 +17,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>CKO High Scores</title>
+    <title>High Scores on ${crawl_utils.THIS_SERVER}</title>
     <link rel="stylesheet" type="text/css" href="score.css">
+    <style>
+      td:nth-child(6) { white-space: normal; }
+    </style>
     <script>
       function openGame(evt, gameName) {
         // Declare all variables
@@ -47,9 +50,7 @@
     <div class="page">
       <%include file="toplink.mako"/>
       <div class="page_content">
-        <h2>CKO High Scores</h2>
-        <p>This page displays high scores for games played on crawl.kelbi.org.</p>
-
+        <h2>High Scores on ${crawl_utils.THIS_SERVER}</h2>
         <div class="content">
           <div class="tab">
             <button class="tablinks" onclick="openGame(event, 'games_git')" id="defaultOpen">trunk</button>
@@ -57,8 +58,8 @@
             <button class="tablinks" onclick="openGame(event, 'games_0_22')">0.22</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_21')">0.21</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_18')">0.18</button>
-            <button class="tablinks" onclick="openGame(event, 'games_bcrawl')">bcrawl</button>
             <button class="tablinks" onclick="openGame(event, 'games_hellcrawl')">hellcrawl</button>
+            <button class="tablinks" onclick="openGame(event, 'games_bcrawl')">bcrawl</button>
           </div>
 
           <div class="game_table" id="games_git">

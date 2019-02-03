@@ -12,6 +12,9 @@
 
     <title>Server Activity</title>
     <link rel="stylesheet" type="text/css" href="score.css">
+    <style>
+      td:nth-child(5) { white-space: normal; }
+    </style>
   </head>
 
   <body class="page_back">
