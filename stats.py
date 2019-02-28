@@ -368,12 +368,14 @@ def update_player_stats(c, g):
 
   if winc:
     dirty_page('best-players-total-score')
+    dirty_page('highscores')
     #dirty_page('all-players')
     dirty_player(g['name'])
   else:
     if g['sc'] > 0:
       factor = int(g['sc'] / 40000) + 1
       dirty_page('best-players-total-score', factor)
+      dirty_page('highscores')
       #dirty_page('all-players', factor)
       dirty_player(g['name'], factor)
     else:

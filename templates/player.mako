@@ -11,6 +11,7 @@
    games_0_18 = query.get_player_games(c, player, "data/cko-logfile-0.18")
    games_bcrawl = query.get_player_games(c, player, "data/cko-logfile-bcrawl")
    games_hellcrawl = query.get_player_games(c, player, "data/cko-logfile-hellcrawl")
+   games_bcadrencrawl = query.get_player_games(c, player, "data/cko-logfile-bcadrencrawl")
  %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -60,6 +61,7 @@
             <button class="tablinks" onclick="openGame(event, 'games_0_18')">0.18</button>
             <button class="tablinks" onclick="openGame(event, 'games_hellcrawl')">hellcrawl</button>
             <button class="tablinks" onclick="openGame(event, 'games_bcrawl')">bcrawl</button>
+            <button class="tablinks" onclick="openGame(event, 'games_bcadrencrawl')">BcadrenCrawl</button>
           </div>
 
           <div class="game_table" id="games_git">
@@ -82,6 +84,9 @@
           </div>
           <div class="game_table" id="games_bcrawl">
             ${html.full_games_table(games_bcrawl, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_bcadrencrawl">
+            ${html.full_games_table(games_bcadrencrawl, count=False, win=False)}
           </div>
         </div>
       </div> <!-- content -->

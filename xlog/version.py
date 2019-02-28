@@ -5,6 +5,7 @@ R_MINOR_VERSION_ONLY = re.compile(r'(?<=\D)(\d{2})(?:\.txt)?$')
 R_GIT_VERSION = re.compile(r'(?i)git|svn|trunk')
 R_HELL = re.compile(r'hellcrawl')
 R_BCRAWL = re.compile(r'bcrawl')
+R_BCADRENCRAWL = re.compile(r'bcadrencrawl')
 
 def version(path):
   """Return the Crawl version the logfile at path is, or 'any' if unknown.
@@ -13,6 +14,8 @@ def version(path):
   'hellcrawl'
   >>> version('meta/bcrawl/logfile')
   'bcrawl'
+  >>> version('meta/bcadrencrawl/logfile')
+  'bcadrencrawl'
   """
   def match(r, test=None, transform=None):
     match_object = r.search(path)
@@ -30,7 +33,7 @@ def version(path):
   return (match(R_SIMPLE_VERSION) or
           match(R_MINOR_VERSION_ONLY, transform = resolve_minor_version) or
           match(R_GIT_VERSION, transform = lambda g: 'git') or
-          match(R_HELL) or match(R_BCRAWL) or
+          match(R_HELL) or match(R_BCRAWL) or match(R_BCADRENCRAWL) or
           'any')
 
 if __name__ == "__main__":

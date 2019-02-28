@@ -11,6 +11,7 @@ sources:
       - meta/git/logfile
       - meta/hellcrawl/logfile
       - meta/bcrawl/logfile
+      - meta/bcadrencrawl/logfile
     milestones:
       - meta/0.18/milestones
       - meta/0.21/milestones
@@ -19,6 +20,7 @@ sources:
       - meta/git/milestones
       - meta/hellcrawl/milestones
       - meta/bcrawl/milestones
+      - meta/bcadrencrawl/milestones
     morgues:
       - http://crawl.kelbi.org/crawl/morgue
 
