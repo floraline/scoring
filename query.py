@@ -129,6 +129,8 @@ def get_best_players(c, game='', *versions):
     if versions:
       for value in versions:
         where_versions += ' or ' + ('v = \'%s\'' % value)
+  else:
+    where_game = 'where source_file not in (\'data/cko-logfile-bcrawl\',\'data/cko-logfile-bcadrencrawl\',\'data/cko-logfile-hellcrawl\')'
 
   querytext = '''SELECT format(p.TotalScore, 0) as TotalScore, p.Player, p.GamesPlayed, p.GamesWon,
                         concat(round(p.GamesWon / p.GamesPlayed * 100, 0),'%%%%') as WinPercentage,
@@ -167,6 +169,8 @@ def player_best_first_last_by_game(c, player, game='', *versions):
     if versions:
       for value in versions:
         where_versions += ' or ' + ('v = \'%s\'' % value)
+  else:
+    where_game = 'source_file not in (\'data/cko-logfile-bcrawl\',\'data/cko-logfile-bcadrencrawl\',\'data/cko-logfile-hellcrawl\')'
 
   q = [(game_select_from('player_recent_games') +
         'WHERE name = \'%s\' and (%s %s) ORDER BY sc DESC LIMIT 1' % (player, where_game, where_versions)),
