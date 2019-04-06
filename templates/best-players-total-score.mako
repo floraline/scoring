@@ -11,6 +11,7 @@
    players_bcrawl = query.get_best_players(c, "data/cko-logfile-bcrawl")
    players_hellcrawl = query.get_best_players(c, "data/cko-logfile-hellcrawl")
    players_bcadrencrawl = query.get_best_players(c, "data/cko-logfile-bcadrencrawl")
+   players_gooncrawl = query.get_best_players(c, "data/cko-logfile-gooncrawl")
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -62,6 +63,7 @@
             <button class="tablinks" onclick="openGame(event, 'players_hellcrawl')">hellcrawl</button>
             <button class="tablinks" onclick="openGame(event, 'players_bcrawl')">bcrawl</button>
             <button class="tablinks" onclick="openGame(event, 'players_bcadrencrawl')">BcadrenCrawl</button>
+            <button class="tablinks" onclick="openGame(event, 'players_gooncrawl')">Gooncrawl</button>
           </div>
           
           <div class="game_table" id="players_all">
@@ -90,6 +92,9 @@
           </div>
           <div class="game_table" id="players_bcadrencrawl">
             ${html.best_players_by_total_score(players_bcadrencrawl)}
+          </div>
+          <div class="game_table" id="players_gooncrawl">
+            ${html.best_players_by_total_score(players_gooncrawl)}
           </div>
         </div>
       </div>
