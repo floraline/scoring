@@ -4,6 +4,7 @@
 
    players_all = query.get_best_players(c)
    players_git = query.get_best_players(c, "data/cko-logfile-git")
+   players_0_24 = query.get_best_players(c, "data/cko-logfile-0.24")#, "0.24-a0")
    players_0_23 = query.get_best_players(c, "data/cko-logfile-0.23")#, "0.23-a0")
    players_0_22 = query.get_best_players(c, "data/cko-logfile-0.22")#, "0.22-a0")
    players_0_21 = query.get_best_players(c, "data/cko-logfile-0.21")
@@ -12,6 +13,8 @@
    players_hellcrawl = query.get_best_players(c, "data/cko-logfile-hellcrawl")
    players_bcadrencrawl = query.get_best_players(c, "data/cko-logfile-bcadrencrawl")
    players_gooncrawl = query.get_best_players(c, "data/cko-logfile-gooncrawl")
+   players_stoatsoup = query.get_best_players(c, "data/cko-logfile-stoatsoup")
+   players_bloatcrawl2 = query.get_best_players(c, "data/cko-logfile-bloatcrawl2")
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -56,6 +59,7 @@
           <div class="tab">
             <button class="tablinks" onclick="openGame(event, 'players_all')" id="defaultOpen">all</button>
             <button class="tablinks" onclick="openGame(event, 'players_git')">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'players_0_24')">0.24</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_23')">0.23</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_22')">0.22</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_21')">0.21</button>
@@ -64,6 +68,8 @@
             <button class="tablinks" onclick="openGame(event, 'players_bcrawl')">bcrawl</button>
             <button class="tablinks" onclick="openGame(event, 'players_bcadrencrawl')">BcadrenCrawl</button>
             <button class="tablinks" onclick="openGame(event, 'players_gooncrawl')">Gooncrawl</button>
+            <button class="tablinks" onclick="openGame(event, 'players_stoatsoup')">StoatSoup</button>
+            <button class="tablinks" onclick="openGame(event, 'players_bloatcrawl2')">Bloatcrawl 2</button>
           </div>
           
           <div class="game_table" id="players_all">
@@ -71,6 +77,9 @@
           </div>
           <div class="game_table" id="players_git">
             ${html.best_players_by_total_score(players_git)}
+          </div>
+          <div class="game_table" id="players_0_24">
+            ${html.best_players_by_total_score(players_0_24)}
           </div>
           <div class="game_table" id="players_0_23">
             ${html.best_players_by_total_score(players_0_23)}
@@ -95,6 +104,12 @@
           </div>
           <div class="game_table" id="players_gooncrawl">
             ${html.best_players_by_total_score(players_gooncrawl)}
+          </div>
+          <div class="game_table" id="players_stoatsoup">
+            ${html.best_players_by_total_score(players_stoatsoup)}
+          </div>
+          <div class="game_table" id="players_bloatcrawl2">
+            ${html.best_players_by_total_score(players_bloatcrawl2)}
           </div>
         </div>
       </div>

@@ -7,6 +7,8 @@ R_HELL = re.compile(r'hellcrawl')
 R_BCRAWL = re.compile(r'bcrawl')
 R_BCADRENCRAWL = re.compile(r'bcadrencrawl')
 R_GOONCRAWL = re.compile(r'gooncrawl')
+R_STOATSOUP = re.compile(r'stoatsoup')
+R_BLOATCRAWL2 = re.compile(r'bloatcrawl2')
 
 def version(path):
   """Return the Crawl version the logfile at path is, or 'any' if unknown.
@@ -37,6 +39,7 @@ def version(path):
           match(R_MINOR_VERSION_ONLY, transform = resolve_minor_version) or
           match(R_GIT_VERSION, transform = lambda g: 'git') or
           match(R_HELL) or match(R_BCRAWL) or match(R_BCADRENCRAWL) or match(R_GOONCRAWL) or
+          match(R_STOATSOUP) or match(R_BLOATCRAWL2) or
           'any')
 
 if __name__ == "__main__":

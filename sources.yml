@@ -1,4 +1,4 @@
-scoring-base: 'http://crawl.kelbi.org/morgue-test'
+scoring-base: 'http://crawl.kelbi.org/scoring'
 
 sources:
   - name: cko
@@ -8,21 +8,27 @@ sources:
       - meta/0.21/logfile
       - meta/0.22/logfile
       - meta/0.23/logfile
+      - meta/0.24/logfile
       - meta/git/logfile
       - meta/hellcrawl/logfile
       - meta/bcrawl/logfile
       - meta/bcadrencrawl/logfile
       - meta/gooncrawl/logfile
+      - meta/stoatsoup/logfile
+      - meta/bloatcrawl2/logfile
     milestones:
       - meta/0.18/milestones
       - meta/0.21/milestones
       - meta/0.22/milestones
       - meta/0.23/milestones
+      - meta/0.24/milestones
       - meta/git/milestones
       - meta/hellcrawl/milestones
       - meta/bcrawl/milestones
       - meta/bcadrencrawl/milestones
       - meta/gooncrawl/milestones
+      - meta/stoatsoup/milestones
+      - meta/bloatcrawl2/milestones
     morgues:
       - http://crawl.kelbi.org/crawl/morgue
 

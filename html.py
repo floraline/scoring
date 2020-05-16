@@ -165,8 +165,8 @@ def pretty_time(time):
 
 def update_time():
   return '''<div class="updatetime">
-            Last updated %s UTC.
-            </div>''' % pretty_time(time.gmtime())
+            Last updated %s.
+            </div>''' % time.strftime('%B %d %Y, %I:%M %p %Z')
 
 def wrap_tuple(x):
   if isinstance(x, tuple):

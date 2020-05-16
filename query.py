@@ -130,10 +130,10 @@ def get_best_players(c, game='', *versions):
       for value in versions:
         where_versions += ' or ' + ('v = \'%s\'' % value)
   else:
-    where_game = 'where source_file not in (\'data/cko-logfile-bcrawl\',\'data/cko-logfile-bcadrencrawl\',\'data/cko-logfile-hellcrawl\')'
+    where_game = 'where source_file not in (\'data/cko-logfile-bcrawl\',\'data/cko-logfile-bcadrencrawl\',\'data/cko-logfile-hellcrawl\',\'data/cko-logfile-gooncrawl\',\'data/cko-logfile-stoatsoup\')'
 
   querytext = '''SELECT format(p.TotalScore, 0) as TotalScore, p.Player, p.GamesPlayed, p.GamesWon,
-                        concat(round(p.GamesWon / p.GamesPlayed * 100, 0),'%%%%') as WinPercentage,
+                        concat(round(p.GamesWon / p.GamesPlayed * 100, 2),'%%%%') as WinPercentage,
                         format(p.BestScore, 0) as BestScore,
                         format(round(p.TotalScore / p.GamesPlayed, 0), 0) as AverageScore,
                         p.FirstGame, p.MostRecentGame
