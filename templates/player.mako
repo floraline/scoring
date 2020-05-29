@@ -5,6 +5,7 @@
    player = attributes['player']
   
    games_git = query.get_player_games(c, player, "data/cko-logfile-git")
+   games_0_25 = query.get_player_games(c, player, "data/cko-logfile-0.25")#, '0.25-a0')
    games_0_24 = query.get_player_games(c, player, "data/cko-logfile-0.24")#, '0.24-a0')
    games_0_23 = query.get_player_games(c, player, "data/cko-logfile-0.23")#, '0.23-a0')
    games_0_22 = query.get_player_games(c, player, "data/cko-logfile-0.22")#, '0.22-a0')
@@ -59,6 +60,7 @@
         <div class="content">
           <div class="tab">
             <button class="tablinks" onclick="openGame(event, 'games_git')" id="defaultOpen">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'games_0_25')">0.25</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_24')">0.24</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_23')">0.23</button>
             <button class="tablinks" onclick="openGame(event, 'games_0_22')">0.22</button>
@@ -74,6 +76,9 @@
 
           <div class="game_table" id="games_git">
             ${html.full_games_table(games_git, count=False, win=False)}
+          </div>
+          <div class="game_table" id="games_0_25">
+            ${html.full_games_table(games_0_25, count=False, win=False)}
           </div>
           <div class="game_table" id="games_0_24">
             ${html.full_games_table(games_0_24, count=False, win=False)}

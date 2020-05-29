@@ -4,6 +4,7 @@
 
    players_all = query.get_best_players(c)
    players_git = query.get_best_players(c, "data/cko-logfile-git")
+   players_0_25 = query.get_best_players(c, "data/cko-logfile-0.25")#, "0.25-a0")
    players_0_24 = query.get_best_players(c, "data/cko-logfile-0.24")#, "0.24-a0")
    players_0_23 = query.get_best_players(c, "data/cko-logfile-0.23")#, "0.23-a0")
    players_0_22 = query.get_best_players(c, "data/cko-logfile-0.22")#, "0.22-a0")
@@ -59,6 +60,7 @@
           <div class="tab">
             <button class="tablinks" onclick="openGame(event, 'players_all')" id="defaultOpen">all</button>
             <button class="tablinks" onclick="openGame(event, 'players_git')">trunk</button>
+            <button class="tablinks" onclick="openGame(event, 'players_0_25')">0.25</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_24')">0.24</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_23')">0.23</button>
             <button class="tablinks" onclick="openGame(event, 'players_0_22')">0.22</button>
@@ -77,6 +79,9 @@
           </div>
           <div class="game_table" id="players_git">
             ${html.best_players_by_total_score(players_git)}
+          </div>
+          <div class="game_table" id="players_0_25">
+            ${html.best_players_by_total_score(players_0_25)}
           </div>
           <div class="game_table" id="players_0_24">
             ${html.best_players_by_total_score(players_0_24)}
